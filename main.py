@@ -19,5 +19,5 @@ m = PyMouse()
 for x in range(width):
     for y in range(height):
         if(imagem_gray.getpixel((x, y)) < VALOR_MINIMO):
-            m.click(x, y)
+            m.click(x + UPPER_LEFT[0], y + UPPER_LEFT[1])
         
