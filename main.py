@@ -7,7 +7,7 @@ sys.setrecursionlimit(100000)
 
 UPPER_LEFT = (50, 164)
 LOWER_BOTTOM = (649, 594)
-VALOR_MINIMO = 73
+VALOR_MINIMO = 90
 
 m = PyMouse()
 print(m.position())
@@ -49,7 +49,7 @@ def is_valid(x, y):
     if(visited[y][x]): return False
     return int(pixels[y][x]) < int(VALOR_MINIMO)
 
-def draw_dfs(x, y):
+def draw_dfs(x, y, recursion = 0):
     global pressed
     visited[y][x] = True
     m.move(x + UPPER_LEFT[0], y + UPPER_LEFT[1])
@@ -64,8 +64,10 @@ def draw_dfs(x, y):
                 m.release(pos[0], pos[1])
                 pressed = False
         if(is_valid(x + row_vec[i], y + col_vec[i])): 
-            time.sleep(0.0004)
-            draw_dfs(x + row_vec[i], y + col_vec[i])
+            time.sleep(0.0007)
+            if(recursion > 14000): return
+            recursion += 1
+            draw_dfs(x + row_vec[i], y + col_vec[i], recursion)
             backtrack = True
     if(pressed):
         pos = m.position()
