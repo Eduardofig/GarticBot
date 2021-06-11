@@ -47,7 +47,6 @@ pressed = False
 def is_valid(x, y):
     if(x >= width or y >= height or x < 0 or y < 0): return False
     if(visited[y][x]): return False
-    print(pixels[y][x])
     return int(pixels[y][x]) < int(VALOR_MINIMO)
 
 def draw_dfs(x, y):
@@ -65,7 +64,7 @@ def draw_dfs(x, y):
                 m.release(pos[0], pos[1])
                 pressed = False
         if(is_valid(x + row_vec[i], y + col_vec[i])): 
-            time.sleep(0.0003)
+            time.sleep(0.0004)
             draw_dfs(x + row_vec[i], y + col_vec[i])
             backtrack = True
     if(pressed):
