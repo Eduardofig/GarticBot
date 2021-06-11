@@ -43,9 +43,8 @@ def is_valid(x, y):
     return imagem_gray.getpixel((x, y)) < VALOR_MINIMO and not visited[y][x]
 
 def draw_dfs(x, y, pressed = False):
-    time.sleep(0.001)
+    time.sleep(0.0006)
     visited[y][x] = True
-    # m.click(x + UPPER_LEFT[0], y + UPPER_LEFT[1])
     m.move(x + UPPER_LEFT[0], y + UPPER_LEFT[1])
     if(not pressed): 
         m.press(x + UPPER_LEFT[0], y + UPPER_LEFT[1])
@@ -53,12 +52,14 @@ def draw_dfs(x, y, pressed = False):
     backtrack = False
     for i in range(6):
         if(backtrack):
-            m.release(m.position()[0], m.position()[1])
+            pos = m.position()
+            m.release(pos[0], pos[1])
             pressed = False
         if(is_valid(x + row_vec[i], y + col_vec[i])): 
             draw_dfs(x + row_vec[i], y + col_vec[i], pressed)
             backtrack = True
-    m.release(m.position()[0], m.position()[1])
+    pos = m.position()
+    m.release(pos[0], pos[1])
 
 for x in range(width):
     for y in range(height):
