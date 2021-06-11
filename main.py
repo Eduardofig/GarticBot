@@ -64,5 +64,3 @@ for x in range(width):
     for y in range(height):
         if(is_valid(x, y)):
             draw_dfs(x, y)
-            time.sleep(0.001)
-
