@@ -65,7 +65,7 @@ def draw_dfs(x, y):
                 m.release(pos[0], pos[1])
                 pressed = False
         if(is_valid(x + row_vec[i], y + col_vec[i])): 
-            time.sleep(0.00029)
+            time.sleep(0.0003)
             draw_dfs(x + row_vec[i], y + col_vec[i])
             backtrack = True
     if(pressed):
