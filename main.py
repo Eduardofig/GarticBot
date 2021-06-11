@@ -3,10 +3,10 @@ from pymouse import PyMouse
 import time
 import sys
 
-sys.setrecursionlimit(100000000)
+sys.setrecursionlimit(100000)
 
-UPPER_LEFT = (67, 190)
-LOWER_BOTTOM = (548, 604)
+UPPER_LEFT = (50, 164)
+LOWER_BOTTOM = (649, 594)
 VALOR_MINIMO = 73
 
 m = PyMouse()
@@ -24,29 +24,34 @@ imagem_contraste = enhancer.enhance(contraste)
 
 imagem_gray = ImageOps.grayscale(imagem_contraste)
 
-pixels = imagem_gray.load()
-
 width, height = imagem_gray.size
 m = PyMouse()
 
 row_vec = [1, 0, -1, 0, 1, 1, -1, -1]
 col_vec = [0, -1, 0, 1, 1, -1, -1, 1]
+
 visited = []
-for i in range(height + 1):
+pixels = []
+
+for y in range(height):
+    col_pix = []
     col = []
-    for j in range(width + 1):
+    for x in range(width):
         col.append(False)
+        col_pix.append(imagem_gray.getpixel((x, y)))
     visited.append(col)
+    pixels.append(col_pix)
 
 pressed = False
 
 def is_valid(x, y):
     if(x >= width or y >= height or x < 0 or y < 0): return False
     if(visited[y][x]): return False
-    return imagem_gray.getpixel((x, y)) < VALOR_MINIMO
+    print(pixels[y][x])
+    return int(pixels[y][x]) < int(VALOR_MINIMO)
 
 def draw_dfs(x, y):
-    global pos, pressed, recursions
+    global pressed
     visited[y][x] = True
     m.move(x + UPPER_LEFT[0], y + UPPER_LEFT[1])
     if(not pressed): 
@@ -54,16 +59,19 @@ def draw_dfs(x, y):
         pressed = True
     backtrack = False
     for i in range(8):
-        if(backtrack and pressed):
-            pos = m.position()
-            m.release(pos[0], pos[1])
-            pressed = False
+        if(backtrack):
+            if(pressed):
+                pos = m.position()
+                m.release(pos[0], pos[1])
+                pressed = False
         if(is_valid(x + row_vec[i], y + col_vec[i])): 
             time.sleep(0.00029)
             draw_dfs(x + row_vec[i], y + col_vec[i])
             backtrack = True
-    pos = m.position()
-    m.release(pos[0], pos[1])
+    if(pressed):
+        pos = m.position()
+        m.release(pos[0], pos[1])
+        pressed = False
 
 for x in range(width):
     for y in range(height):
