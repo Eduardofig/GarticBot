@@ -40,7 +40,8 @@ for i in range(height):
 
 def is_valid(x, y):
     if(x >= width or y >= height or x < 0 or y < 0): return False
-    return imagem_gray.getpixel((x, y)) < VALOR_MINIMO and not visited[y][x]
+    if(visited[y][x]): return False
+    return imagem_gray.getpixel((x, y)) < VALOR_MINIMO
 
 def draw_dfs(x, y, pressed = False):
     time.sleep(0.0006)
@@ -50,7 +51,7 @@ def draw_dfs(x, y, pressed = False):
         m.press(x + UPPER_LEFT[0], y + UPPER_LEFT[1])
         pressed = True
     backtrack = False
-    for i in range(6):
+    for i in range(8):
         if(backtrack):
             pos = m.position()
             m.release(pos[0], pos[1])
