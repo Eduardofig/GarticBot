@@ -32,19 +32,21 @@ m = PyMouse()
 row_vec = [1, 0, -1, 0, 1, 1, -1, -1]
 col_vec = [0, -1, 0, 1, 1, -1, -1, 1]
 visited = []
-for i in range(height):
+for i in range(height + 20):
     col = []
-    for j in range(width):
+    for j in range(width + 20):
         col.append(False)
     visited.append(col)
+
+pressed = False
 
 def is_valid(x, y):
     if(x >= width or y >= height or x < 0 or y < 0): return False
     if(visited[y][x]): return False
     return imagem_gray.getpixel((x, y)) < VALOR_MINIMO
 
-def draw_dfs(x, y, pressed = False):
-    time.sleep(0.0006)
+def draw_dfs(x, y):
+    global pos, pressed
     visited[y][x] = True
     m.move(x + UPPER_LEFT[0], y + UPPER_LEFT[1])
     if(not pressed): 
@@ -52,12 +54,13 @@ def draw_dfs(x, y, pressed = False):
         pressed = True
     backtrack = False
     for i in range(8):
-        if(backtrack):
+        if(backtrack and pressed):
             pos = m.position()
             m.release(pos[0], pos[1])
             pressed = False
         if(is_valid(x + row_vec[i], y + col_vec[i])): 
-            draw_dfs(x + row_vec[i], y + col_vec[i], pressed)
+            time.sleep(0.0006)
+            draw_dfs(x + row_vec[i], y + col_vec[i])
             backtrack = True
     pos = m.position()
     m.release(pos[0], pos[1])
