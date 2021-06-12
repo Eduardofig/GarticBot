@@ -7,7 +7,7 @@ sys.setrecursionlimit(100000)
 
 UPPER_LEFT = (50, 164)
 LOWER_BOTTOM = (649, 594)
-VALOR_MINIMO = 90
+VALOR_MINIMO = 70
 
 m = PyMouse()
 print(m.position())
